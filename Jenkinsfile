@@ -26,7 +26,7 @@ pipeline{
         stage("docker build")
         {
           steps{
-                  sh 'docker build -t XYZtechnologies:latest .'
+                  sh 'docker build -t xyz_technologies:latest .'
                }
         }
 

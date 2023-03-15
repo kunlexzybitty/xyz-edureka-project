@@ -15,8 +15,10 @@
     apt:
       name: python3
       state: latest
-      update_cache: yes
-
+    
+  - apt: update_cache=yes
+    environment: "{{proxy_env}}"    
+    
   - name: Install requests python package
     become: true
     become_method: sudo

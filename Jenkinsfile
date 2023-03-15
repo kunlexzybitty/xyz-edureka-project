@@ -1,5 +1,8 @@
 pipeline{
     agent { label 'Slave1' }
+      environment{
+        IMAGE = "xyz_technologies:${env.BUILD_NUMBER}"
+    }
     stages{
 
 
@@ -26,30 +29,28 @@ pipeline{
         stage("docker build")
         {
           steps{
-                  sh 'docker build -t xyz_technologies:'+$BUILD_NUMBER+' .'
+                  sh 'docker build -t ${IMAGE} .'
                }
         }
 
          stage ('Deploy') {
             steps {
                 script{
-                    def image_id = "xyz_technologies:$BUILD_NUMBER"
-                    sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${image_id}\""
+                    sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${IMAGE}\""
                 }
             }
         }
 
 
-/*
+
         stage('Clean unsed k8s resources') {
             steps {
                 sh "docker system prune -f"
                 
             }
         }
-*/
 
-      }
+    }
 
   
 }

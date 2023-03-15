@@ -13,7 +13,6 @@
     apt:
       name: python3
       state: latest
-      update_cache: yes
 
   - name: Install requests python package
     pip:

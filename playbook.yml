@@ -16,9 +16,8 @@
       name: python3
       state: latest
     
-  - apt: update_cache=yes
-    environment: "{{proxy_env}}"    
-    
+  - apt: update_cache=yes   
+
   - name: Install requests python package
     become: true
     become_method: sudo
@@ -26,6 +25,8 @@
       name: requests
     vars:
       ansible_python_interpreter: /usr/bin/python3   
+
+  - apt: update_cache=yes       
 
   - name: Deploy the service
     k8s:

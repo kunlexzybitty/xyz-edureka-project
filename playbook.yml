@@ -1,11 +1,20 @@
 - hosts: localhost
   tasks:
   - name: install pre-requisites
+    become: true
+    become_method: sudo
     pip:
       name:
         - openshift
         - pyyaml
         - kubernetes 
+
+  - name: "install python for Ansible."
+    become: true
+    become_method: sudo
+    apt:
+      name: python3
+      state: latest
 
   - name: Install requests python package
     pip:

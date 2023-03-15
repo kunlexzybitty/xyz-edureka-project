@@ -1,8 +1,6 @@
 - hosts: localhost
   tasks:
   - name: install pre-requisites
-    become: true
-    become_method: sudo
     pip:
       name:
         - openshift
@@ -15,8 +13,11 @@
     apt:
       name: python3
       state: latest
+      update_cache: yes
 
   - name: Install requests python package
+    become: true
+    become_method: sudo
     pip:
       name: requests
     vars:

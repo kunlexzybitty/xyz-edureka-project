@@ -7,6 +7,7 @@
           - openshift
           - pyyaml
           - kubernetes
+          
     - name: install python for Ansible.
       user: edureka
       become: true

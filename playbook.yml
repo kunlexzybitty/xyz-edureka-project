@@ -1,5 +1,9 @@
 - hosts: localhost
+  vars:
+      ansible_python_interpreter: /usr/bin/python3 
   tasks:
+  - debug: var=ansible_host 
+  
   - name: install pre-requisites
     become: true
     become_method: sudo
@@ -17,13 +21,6 @@
       state: latest
       update_cache: yes
   
-  - name: Install requests python package
-    become: true
-    become_method: sudo
-    pip:
-      name: requests
-    vars:
-      ansible_python_interpreter: /usr/bin/python3   
 
   - name: Deploy the service
     k8s:

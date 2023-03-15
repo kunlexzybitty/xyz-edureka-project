@@ -15,9 +15,8 @@
     apt:
       name: python3
       state: latest
-    
-  - apt: update_cache=yes   
-
+      update_cache: yes
+  
   - name: Install requests python package
     become: true
     become_method: sudo

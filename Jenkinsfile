@@ -26,19 +26,28 @@ pipeline{
         stage("docker build")
         {
           steps{
-                  sh 'docker build -t xyz_technologies:latest .'
+                  sh 'docker build -t xyz_technologies:'+$BUILD_NUMBER+' .'
                }
         }
 
-
-        stage('Clean') {
+         stage ('Deploy') {
             steps {
-                sh "docker image rm -f XYZtechnologies:latest"
+                script{
+                    def image_id = "xyz_technologies:$BUILD_NUMBER"
+                    sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${image_id}\""
+                }
+            }
+        }
+
+
+/*
+        stage('Clean unsed k8s resources') {
+            steps {
                 sh "docker system prune -f"
                 
             }
         }
-
+*/
 
       }
 

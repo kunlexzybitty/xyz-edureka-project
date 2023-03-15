@@ -15,7 +15,6 @@
     apt:
       name: python3
       state: latest
-      update_cache: yes
 
   - name: Deploy the service
     k8s:

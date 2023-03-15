@@ -7,7 +7,7 @@
         - pyyaml
         - kubernetes 
 
-  - name: "install python for Ansible."
+  - name: install python for Ansible.
     user: edureka
     become: true
     become_method: sudo

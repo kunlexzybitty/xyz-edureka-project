@@ -6,6 +6,20 @@
         - openshift
         - pyyaml
         - kubernetes 
+  - name: Install python in target node with ansible
+    hosts: python
+    become: true
+    gather_facts: no
+    pre_tasks:
+    - name: install python
+      raw: 'cat < /home/ubuntu/script.sh'
+      args:
+        executable: /bin/bash 
+  - name: Install requests python package
+    pip:
+      name: requests
+    vars:
+      ansible_python_interpreter: /usr/bin/python3    
   - name: Deploy the service
     k8s:
       state: present

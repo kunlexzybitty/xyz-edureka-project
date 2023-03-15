@@ -3,6 +3,7 @@
   - name: install pre-requisites
     become: true
     become_method: sudo
+    user: edureka
     pip:
       name:
         - openshift
@@ -12,9 +13,20 @@
   - name: "install python for Ansible."
     become: true
     become_method: sudo
+    user: edureka
     apt:
       name: python3
       state: latest
+      update_cache: yes
+
+  - name: Install requests python package
+    become: true
+    become_method: sudo
+    user: edureka
+    pip:
+      name: requests
+    vars:
+      ansible_python_interpreter: /usr/bin/python3   
 
   - name: Deploy the service
     k8s:

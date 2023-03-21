@@ -31,8 +31,7 @@
 
   - name: "Patch kube-proxy ConfigMap metricsBindAddress"
     ansible.builtin.set_fact:
-      new_data: "{{ kube_proxy_data.resources[0].data['config.conf'] |
-                    from_yaml | combine(patch) }}"
+      new_data: "{{ kube_proxy_data.resources[0].data['config.conf'] | from_yaml | combine(patch) }}"
     vars:
       patch:
         "metricsBindAddress": "0.0.0.0"

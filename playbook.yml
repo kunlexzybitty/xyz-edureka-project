@@ -23,7 +23,7 @@
 
   - name: "Update PiP"
     ansible.builtin.shell:
-      cmd: pip3 install --upgrade requests 
+      cmd: sudo pip3 install --upgrade requests 
         
   - name: Deploy the service
     k8s:

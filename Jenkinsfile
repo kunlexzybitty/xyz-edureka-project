@@ -36,6 +36,7 @@ pipeline{
          stage ('Deploy') {
             steps {
                 script{
+                    sh 'pip3 install --upgrade requests'
                     sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${IMAGE}\""
                 }
             }

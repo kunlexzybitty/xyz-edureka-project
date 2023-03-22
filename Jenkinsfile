@@ -33,22 +33,14 @@ pipeline{
                }
         }
 
-         stage ('Configure servers') {
+         stage ('Deploy') {
             steps {
                 script{
-                    sh "ansible-playbook  playbook.yml"
+                    sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${IMAGE}\""
                 }
             }
         }
-        
-        stage ('Deploy') {
-            steps {
-                script{
-                    sh "ansible-playbook  k8s/service.yml"
-                    sh "ansible-playbook  k8s/deployment.yml --extra-vars \"image_id=${IMAGE}\""
-                }
-            }
-        }
+
 
 
         stage('Clean unsed k8s resources') {

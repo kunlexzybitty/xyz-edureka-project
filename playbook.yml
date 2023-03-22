@@ -24,17 +24,11 @@
   - name: "Update PiP"
     ansible.builtin.shell:
       cmd: sudo pip3 install --upgrade requests 
-        
-  - name: Deploy the service
-    k8s:
-      state: present
-      definition: "{{ lookup('template', 'k8s/service.yml') | from_yaml }}"
-      validate_certs: no
-      namespace: default
 
-  - name: Deploy the application
-    k8s:
-      state: present
-      validate_certs: no
-      namespace: default
-      definition: "{{ lookup('template', 'k8s/deployment.yml') | from_yaml }}"
+  - name: "s"
+    kubernetes.core.k8s:
+      state: absent
+      api_version: v1
+      kind: Service
+      name: web
+  

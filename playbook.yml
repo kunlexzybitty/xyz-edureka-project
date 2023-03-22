@@ -21,40 +21,14 @@
       state: latest
       update_cache: yes
   
-  - 
-    kubernetes.core.k8s_info:
-      kind: ConfigMap
-      name: kube-proxy
-      namespace: kube-system
-      kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
-    register: kube_proxy_data
-
-  - 
-    ansible.builtin.set_fact:
-      new_data: "{{ kube_proxy_data.resources[0].data['config.conf'] | from_yaml | combine(patch) }}"
-    vars:
-      patch:
-        "metricsBindAddress": "0.0.0.0"
-
-  - 
-    kubernetes.core.k8s_json_patch:
-      kind: ConfigMap
-      name: kube-proxy
-      namespace: kube-system
-      kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
-      patch:
-        - op: replace
-          path: /data/config.conf
-          value: "{{ new_data | to_nice_yaml(indent=2, width=120) }}"
-
-  - 
+  - name: Deploy the service
     k8s:
       state: present
       definition: "{{ lookup('template', 'k8s/service.yml') | from_yaml }}"
       validate_certs: no
       namespace: default
 
-  - 
+  - name: Deploy the application
     k8s:
       state: present
       validate_certs: no

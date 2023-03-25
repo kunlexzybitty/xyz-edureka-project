@@ -18,40 +18,11 @@
     ansible.builtin.shell:
       cmd: sudo pip3 install --upgrade requests 
 
-  - name: "Get kube-proxy ConfigMap"
-    kubernetes.core.k8s_info:
-      kind: ConfigMap
-      name: kube-proxy
-      namespace: kube-system
-      kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
-    register: kube_proxy_data
-
-  - name: "Patch kube-proxy ConfigMap metricsBindAddress"
-    ansible.builtin.set_fact:
-      new_data: "{{ kube_proxy_data.resources[0].data['config.conf'] |
-                    from_yaml | combine(patch) }}"
-    vars:
-      patch:
-        "metricsBindAddress": "0.0.0.0"
-
-  - name: "Replace kube-proxy config.conf data"
-    kubernetes.core.k8s_json_patch:
-      kind: ConfigMap
-      name: kube-proxy
-      namespace: kube-system
-      kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
-      patch:
-        - op: replace
-          path: /data/config.conf
-          value: "{{ new_data | to_nice_yaml(indent=2, width=120) }}"
-
   - name: Deploy the service
-    k8s:
+    kubernetes.core.k8s:
       state: present
-      definition: "{{ lookup('template', 'k8s/service.yml') | from_yaml }}"
-      validate_certs: no
-      namespace: default
-
+      src: /k8s/service.yml
+      
   - name: Deploy the application
     k8s:
       state: present

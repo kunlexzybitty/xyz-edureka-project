@@ -4,25 +4,16 @@
   tasks:
   - debug: var=ansible_host 
 
-  - name: install pre-requisites
-    become: true
-    become_method: sudo
-    pip:
-      name:
-        - openshift
-        - pyyaml
-        - kubernetes 
-
-  - name: "Update PiP"
-    become: true
-    ansible.builtin.shell:
-      cmd: sudo pip3 install --upgrade requests 
-
   - name: Deploy the service
-    ansible.builtin.shell:
-      cmd: kubectl create -f k8s/service.yml
+    kubernetes.core.k8s:
+      state: present
+      definition: "{{ lookup('template', 'k8s/service.yml') | from_yaml }}"
+      validate_certs: no
+      namespace: default
 
   - name: Deploy the application
-    ansible.builtin.shell:
-      cmd: kubectl create -f k8s/deployment.yml
-   
+    k8s:
+      state: present
+      validate_certs: no
+      namespace: default
+      definition: "{{ lookup('template', 'k8s/deployment.yml') | from_yaml }}"

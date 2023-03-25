@@ -4,11 +4,19 @@
   tasks:
   - debug: var=ansible_host 
 
-  - name: "Update PiP"
+  - name: install pre-requisites
     become: true
     become_method: sudo
+    pip:
+      name:
+        - openshift
+        - pyyaml
+        - kubernetes 
+
+  - name: "Update PiP"
+    become: true
     ansible.builtin.shell:
-      cmd:  pip3 install --upgrade requests 
+      cmd: sudo pip3 install --upgrade requests 
         
   - name: Deploy the service
     k8s:

@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'Slave1' }
+    agent { label 'root' }
       environment{
         IMAGE = "xyz_technologies:${env.BUILD_NUMBER}"
     }

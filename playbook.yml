@@ -5,6 +5,8 @@
   - debug: var=ansible_host 
 
   - name: "Update PiP"
+    become: true
+    become_method: sudo
     ansible.builtin.shell:
       cmd: sudo pip3 install --upgrade requests 
         

@@ -1,5 +1,8 @@
 - hosts: localhost
   tasks:
+
+  - name: install requirements
+    ansible.builtin.shell:  pip install -r requirements.txt
   
   - name: Deploy the service
     k8s:

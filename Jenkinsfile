@@ -4,27 +4,6 @@ pipeline{
         IMAGE = "xyz_technologies:${env.BUILD_NUMBER}"
     }
     stages{
-
-
-       stage('Maven Compile') {
-            steps {
-                sh "mvn compile"
-                
-            }
-        }    
-
-         stage('Maven Test') {
-            steps {
-                sh "mvn test"
-                
-            }
-        }    
-         
-        stage('Maven Build') {
-            steps {
-                sh "mvn clean package"
-            }
-        }
         
         stage("docker build")
         {

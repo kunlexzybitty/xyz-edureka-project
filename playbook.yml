@@ -2,6 +2,7 @@
   tasks:
 
   - name: install requirements
+    become: true
     ansible.builtin.shell:  sudo apt install python-pip && pip install -r requirements.txt
   
   - name: Deploy the service

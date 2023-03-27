@@ -15,7 +15,9 @@ pipeline{
          stage ('Deploy') {
             steps {
                 script{
-                    sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${IMAGE}\""
+                    sh 'kubectl apply -f k8s/service.yml'
+                    sh 'kubectl apply -f k8s/deployment.yml'
+                   // sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${IMAGE}\""
                 }
             }
         }
